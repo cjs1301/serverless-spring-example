@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: NoMoney Application
+
+Globals:
+  Function:
+    Timeout: 20
+
+Resources:
+  NoMoneyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: com.example.NoMoney.LambdaHandler::handleRequest
+      Runtime: java21
+      # SnapStart:
+      #   ApplyOn: PublishedVersions
+      MemorySize: 512
+      AutoPublishAlias: prod
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+  # WarmupRule:
+  #   Type: AWS::Events::Rule
+  #   Properties:
+  #     ScheduleExpression: "rate(5 minutes)"
+  #     State: ENABLED
+  #     Targets:
+  #       - Arn: !GetAtt NoMoneyFunction.Arn
+  #         Id: "WarmupLambdaTarget"
+  #         Input: '{"resource": "/warmup", "path": "/warmup", "httpMethod": "GET"}'
+  # WarmupLambdaPermission:
+  #    Type: AWS::Lambda::Permission
+  #    Properties:
+  #     FunctionName: !Ref NoMoneyFunction
+  #     Action: "lambda:InvokeFunction"
+  #     Principal: "events.amazonaws.com"
+  #     SourceArn: !GetAtt WarmupRule.Arn
+
+Outputs:
+  NoMoneyApi:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
