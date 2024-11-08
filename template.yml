@@ -16,6 +16,11 @@ Resources:
         ApplyOn: PublishedVersions
       MemorySize: 512
       AutoPublishAlias: prod
+      Environment:
+        Variables:
+          RDS_ENDPOINT: '{{resolve:ssm:/serverless/host}}'
+          DB_USERNAME: '{{resolve:ssm:/serverless/db-username}}'
+          DB_PASSWORD: '{{resolve:ssm:/serverless/db-password}}'
       Events:
         ApiEvent:
           Type: Api

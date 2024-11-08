@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: NoMoney
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${RDS_ENDPOINT}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
