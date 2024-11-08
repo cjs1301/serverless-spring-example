@@ -22,22 +22,14 @@ Resources:
           Properties:
             Path: /{proxy+}
             Method: ANY
-  # WarmupRule:
-  #   Type: AWS::Events::Rule
-  #   Properties:
-  #     ScheduleExpression: "rate(5 minutes)"
-  #     State: ENABLED
-  #     Targets:
-  #       - Arn: !GetAtt NoMoneyFunction.Arn
-  #         Id: "WarmupLambdaTarget"
-  #         Input: '{"resource": "/warmup", "path": "/warmup", "httpMethod": "GET"}'
-  # WarmupLambdaPermission:
-  #    Type: AWS::Lambda::Permission
-  #    Properties:
-  #     FunctionName: !Ref NoMoneyFunction
-  #     Action: "lambda:InvokeFunction"
-  #     Principal: "events.amazonaws.com"
-  #     SourceArn: !GetAtt WarmupRule.Arn
+        WarmupEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+            Input: '{"source": "serverless-plugin-warmup"}'
+            Name: nomoney-lambda-warmup
+            Description: "Keeps the Lambda warm"
+            Enabled: true
 
 Outputs:
   NoMoneyApi:
