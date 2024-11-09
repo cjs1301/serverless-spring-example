@@ -14,7 +14,7 @@ Resources:
       Runtime: java21
       SnapStart:
         ApplyOn: PublishedVersions
-      MemorySize: 1024
+      MemorySize: 2048
       AutoPublishAlias: prod
       Environment:
         Variables:
